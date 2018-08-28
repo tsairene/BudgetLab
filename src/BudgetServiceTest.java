@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -64,23 +65,23 @@ public class BudgetServiceTest {
     class MockBudgetService extends BudgetService {
         @Override
         protected List<Budget> getAllBudget() {
-            List<Budget> budges = new ArrayList<>();
-            budges.add(new Budget("201801", 310));
-            budges.add(new Budget("201802", 870));
-            budges.add(new Budget("201803", 980));
-            budges.add(new Budget("201804", 680));
-            budges.add(new Budget("201805", 445));
-            budges.add(new Budget("201806", 700));
-            budges.add(new Budget("201807", 1050));
-            budges.add(new Budget("201808", 590));
-            budges.add(new Budget("201809", 835));
-            budges.add(new Budget("201810", 777));
-            budges.add(new Budget("201811", 670));
-            budges.add(new Budget("201812", 310));
-            budges.add(new Budget("201901", 656));
-            budges.add(new Budget("201902", 490));
-            budges.add(new Budget("201903", 900));
-            return budges;
+            return Arrays.asList(
+                    new Budget("201801", 310),
+                    new Budget("201802", 870),
+                    new Budget("201803", 980),
+                    new Budget("201804", 680),
+                    new Budget("201805", 445),
+                    new Budget("201806", 700),
+                    new Budget("201807", 1050),
+                    new Budget("201808", 590),
+                    new Budget("201809", 835),
+                    new Budget("201810", 777),
+                    new Budget("201811", 670),
+                    new Budget("201812", 310),
+                    new Budget("201901", 656),
+                    new Budget("201902", 490),
+                    new Budget("201903", 900)
+            );
         }
     }
 }
