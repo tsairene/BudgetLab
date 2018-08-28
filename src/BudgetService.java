@@ -4,8 +4,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
 import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-
 
 public class BudgetService {
     Repo repo = new Repo();
@@ -29,40 +27,15 @@ public class BudgetService {
     }
 
     private float queryBudgetMoreThanOneMonth(LocalDate startDate, LocalDate endDate) {
-
         float result = 0;
-
-        if (startDate.getYear() == endDate.getYear()) {
-            // Same Year
-
-            result += queryBudgeInStartMonth(startDate);
-
-            for (int m = startDate.getMonthValue() + 1; m < endDate.getMonthValue(); m++) {
-                LocalDate date = LocalDate.of(startDate.getYear(), m, 1); // the 1st day of that month
-                result += getMonthBudgetOfDate(date);
-            }
-
-            result += queryBudgeInEndMonth(endDate);
-        } else {
-            // Start Year
-            result += queryBudgetMoreThanOneMonth(
-                    startDate,
-                    LocalDate.of(startDate.getYear(), 12, 31));
-
-            // Years in between
-            for (int y = startDate.getYear() + 1; y < endDate.getYear(); y++) {
-                result += queryBudgetMoreThanOneMonth(
-                        LocalDate.of(y, 1, 1),
-                        LocalDate.of(y, 12, 31)
-                );
-            }
-
-            // End Year
-            result += queryBudgetMoreThanOneMonth(
-                    LocalDate.of(endDate.getYear(), 1, 1),
-                    endDate);
+        result += queryBudgeInStartMonth(startDate);
+        int length = startDate.getMonthValue() + 1 + getMonthDiff(startDate.plusMonths(1), endDate.minusMonths(1));
+        LocalDate date = startDate;
+        for (int m = startDate.getMonthValue(); m < length; m++) {
+            date = date.plusMonths(1); // go to next month
+            result += getMonthBudgetOfDate(date);
         }
-
+        result += queryBudgeInEndMonth(endDate);
         return result;
     }
 
@@ -94,6 +67,7 @@ public class BudgetService {
     }
 
     private int getMonthDiff(LocalDate startDate, LocalDate endDate) {
-        return Period.between(startDate, endDate.plusDays(1)).getMonths();
+        Period p = Period.between(startDate, endDate.plusDays(1));
+        return 12 * p.getYears() + p.getMonths() ;
     }
 }
