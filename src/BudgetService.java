@@ -28,7 +28,17 @@ public class BudgetService {
     }
 
     private float queryBudgeOfWholeMonthInBetween(LocalDate startDate, LocalDate endDate) {
-        return 0;
+        float result = 0;
+
+        // Same year
+        for (int i = startDate.getMonthValue() + 1; i <= endDate.getMonthValue(); i++) {
+            LocalDate date = LocalDate.of(startDate.getYear(), i,1); // the 1st day of that month
+            result += getAmountOfMonth(date);
+        }
+
+        // TODO: Cross year
+
+        return result;
     }
 
     private float queryBudgeInStartMonth(LocalDate startDate) {
