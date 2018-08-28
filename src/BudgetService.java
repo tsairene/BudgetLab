@@ -49,7 +49,7 @@ public class BudgetService {
     }
 
     private float queryBudgetAcrossOneMonth(LocalDate startDate, LocalDate endDate) {
-        return 0;
+        return queryBudgeInStartMonth(startDate) + queryBudgeInEndMonth(endDate);
     }
 
     private float queryBudgetInSameMonth(LocalDate startDate, LocalDate endDate) {
