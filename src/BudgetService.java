@@ -33,6 +33,10 @@ public class BudgetService {
         return 0;
     }
 
+    private int getAmountOfMonth(LocalDate date) {
+        return 0;
+    }
+
     private int getMonthDiff(LocalDate startDate, LocalDate endDate) {
         return endDate.getMonthValue() - startDate.getMonthValue();
     }
