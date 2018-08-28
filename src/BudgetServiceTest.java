@@ -13,15 +13,23 @@ public class BudgetServiceTest {
 
     @Test
     public void budget_in_same_date() {
+        MockBudgetService sut = new MockBudgetService();
+        sut.stubBudges = Arrays.asList(
+                new Budget("201808", 310)
+        );
         LocalDate startDate = LocalDate.of(2018, 8, 1);
-        budgetShouldBe(19.03f, budgetService.queryBudget(startDate, startDate));
+        budgetShouldBe(10, sut.queryBudget(startDate, startDate));
     }
 
     @Test
     public void budget_in_same_month() {
+        MockBudgetService sut = new MockBudgetService();
+        sut.stubBudges = Arrays.asList(
+                new Budget("201808", 310)
+        );
         LocalDate startDate = LocalDate.of(2018, 8, 2);
         LocalDate endDate = LocalDate.of(2018, 8, 3);
-        budgetShouldBe(38.06f, budgetService.queryBudget(startDate, endDate));
+        budgetShouldBe(20, sut.queryBudget(startDate, endDate));
     }
 
     @Test
@@ -63,8 +71,15 @@ public class BudgetServiceTest {
     }
 
     class MockBudgetService extends BudgetService {
+
+        List<Budget> stubBudges;
+
         @Override
         protected List<Budget> getAllBudget() {
+            if (stubBudges != null) {
+                return stubBudges;
+            }
+
             return Arrays.asList(
                     new Budget("201801", 310),
                     new Budget("201802", 870),
