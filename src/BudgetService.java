@@ -22,6 +22,20 @@ public class BudgetService {
     }
 
     private float queryBudgetMoreThanOneMonth(LocalDate startDate, LocalDate endDate) {
+        return queryBudgeOfWholeMonthInBetween(startDate, endDate)
+                + queryBudgeInStartMonth(startDate)
+                + queryBudgeInEndMonth(endDate);
+    }
+
+    private float queryBudgeOfWholeMonthInBetween(LocalDate startDate, LocalDate endDate) {
+        return 0;
+    }
+
+    private float queryBudgeInStartMonth(LocalDate startDate) {
+        return 0;
+    }
+
+    private float queryBudgeInEndMonth(LocalDate endDate) {
         return 0;
     }
 
