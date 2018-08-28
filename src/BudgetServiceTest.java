@@ -1,8 +1,6 @@
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -44,7 +42,7 @@ public class BudgetServiceTest {
         BudgetService budgetService = new BudgetService();
         LocalDate startDate = LocalDate.of(2018, 3, 1);
         LocalDate endDate = LocalDate.of(2019, 2, 28);
-        assertEquals(1002.67, budgetService.queryBudget(startDate, endDate), 0.001);
+        assertEquals(8183, budgetService.queryBudget(startDate, endDate), 0.001);
     }
 
     @Test
