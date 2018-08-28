@@ -29,36 +29,36 @@ public class BudgetService {
     }
 
     private float queryBudgetMoreThanOneMonth(LocalDate startDate, LocalDate endDate) {
-        return queryBudgeOfWholeMonthInBetween(startDate, endDate)
-                + queryBudgeInStartMonth(startDate)
-                + queryBudgeInEndMonth(endDate);
-    }
 
-    private float queryBudgeOfWholeMonthInBetween(LocalDate startDate, LocalDate endDate) {
         float result = 0;
 
         if (startDate.getYear() == endDate.getYear()) {
             // Same Year
-            for (int m = startDate.getMonthValue() + 1; m <= endDate.getMonthValue(); m++) {
+
+            result += queryBudgeInStartMonth(startDate);
+
+            for (int m = startDate.getMonthValue() + 1; m < endDate.getMonthValue(); m++) {
                 LocalDate date = LocalDate.of(startDate.getYear(), m, 1); // the 1st day of that month
                 result += getMonthBudgetOfDate(date);
             }
+
+            result += queryBudgeInEndMonth(endDate);
         } else {
             // Start Year
-            result += queryBudgetAcrossOneMonth(
+            result += queryBudgetMoreThanOneMonth(
                     startDate,
                     LocalDate.of(startDate.getYear(), 12, 31));
 
             // Years in between
             for (int y = startDate.getYear() + 1; y < endDate.getYear(); y++) {
-                result += queryBudgetAcrossOneMonth(
+                result += queryBudgetMoreThanOneMonth(
                         LocalDate.of(y, 1, 1),
                         LocalDate.of(y, 12, 31)
                 );
             }
 
             // End Year
-            result += queryBudgetAcrossOneMonth(
+            result += queryBudgetMoreThanOneMonth(
                     LocalDate.of(endDate.getYear(), 1, 1),
                     endDate);
         }
