@@ -34,7 +34,7 @@ public class BudgetService {
         // Same year
         for (int i = startDate.getMonthValue() + 1; i <= endDate.getMonthValue(); i++) {
             LocalDate date = LocalDate.of(startDate.getYear(), i,1); // the 1st day of that month
-            result += getAmountOfMonth(date);
+            result += getBudgetByDate(date);
         }
 
         // TODO: Cross year
@@ -60,6 +60,7 @@ public class BudgetService {
         return Math.round((amount * days / startDate.lengthOfMonth()) * 100.0) / 100.0f;
     }
 
+    // Return Month Budget
     public int getBudgetByDate(LocalDate month) {
         final String monthString = month.format(DateTimeFormatter.ofPattern("yyyyMM"));
         final Repo repo = new Repo();
