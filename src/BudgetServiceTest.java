@@ -1,7 +1,6 @@
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class BudgetServiceTest {
     public void same_date() {
         BudgetService budgetService = new BudgetService();
         LocalDate startDate = LocalDate.of(2018,8,1);
-        assertTrue(10 == budgetService.queryBudget(startDate, startDate));
+        assertEquals(10, budgetService.queryBudget(startDate, startDate), 0.001);
     }
 
     @Test

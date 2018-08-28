@@ -8,7 +8,7 @@ public class BudgetService {
 
     public float queryBudget(LocalDate startDate, LocalDate endDate) {
         int dayOfMonth = startDate.getDayOfMonth();
-        int days = (int) DAYS.between(startDate, endDate);
+
         int monthDiff = getMonthDiff(startDate, endDate);
         if (monthDiff == 0) {
             return queryBudgetInSameMonth(startDate, endDate);
@@ -44,7 +44,9 @@ public class BudgetService {
     }
 
     private float queryBudgetInSameMonth(LocalDate startDate, LocalDate endDate) {
-        return 0;
+        int amount = getAmountOfMonth(startDate);
+        int days = (int) DAYS.between(startDate, endDate) + 1;
+        return Math.round((amount * days / startDate.lengthOfMonth()) * 100.0) / 100.0f;
     }
 
     private int getAmountOfMonth(LocalDate date) {
