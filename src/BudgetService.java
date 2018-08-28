@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -41,16 +42,18 @@ public class BudgetService {
 
             }
         }
-
+        
         return result;
     }
 
     private float queryBudgeInStartMonth(LocalDate startDate) {
-        return 0;
+        final LocalDate endDate = startDate.with(TemporalAdjusters.lastDayOfMonth());
+        return queryBudgetInSameMonth(startDate, endDate);
     }
 
     private float queryBudgeInEndMonth(LocalDate endDate) {
-        return 0;
+        final LocalDate startDate = endDate.with(TemporalAdjusters.firstDayOfMonth());
+        return queryBudgetInSameMonth(startDate, endDate);
     }
 
     private float queryBudgetAcrossOneMonth(LocalDate startDate, LocalDate endDate) {
