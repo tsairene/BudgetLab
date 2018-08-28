@@ -27,8 +27,8 @@ public class BudgetServiceTest {
     public void budget_return_with_decimal_in_same_month() {
         BudgetService budgetService = new BudgetService();
         LocalDate startDate = LocalDate.of(2018, 3, 1);
-        LocalDate endDate = LocalDate.of(2018, 3, 30);
-        assertTrue(32.67 == budgetService.queryBudget(startDate, endDate));
+        LocalDate endDate = LocalDate.of(2018, 3, 1);
+        assertEquals(31.61, budgetService.queryBudget(startDate, endDate), 0.001);
     }
 
     @Test
@@ -41,6 +41,7 @@ public class BudgetServiceTest {
     class StubIRepo implements IRepo {
         public List<Budget> getAll() {
             return Arrays.asList(
+                    new Budget("201803", 980),
                     new Budget("201808", 310)
             );
         }

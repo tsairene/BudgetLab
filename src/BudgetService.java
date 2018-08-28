@@ -8,8 +8,6 @@ public class BudgetService {
     Repo repo = new Repo();
 
     public float queryBudget(LocalDate startDate, LocalDate endDate) {
-        int dayOfMonth = startDate.getDayOfMonth();
-
         int monthDiff = getMonthDiff(startDate, endDate);
         if (monthDiff == 0) {
             return queryBudgetInSameMonth(startDate, endDate);
@@ -33,7 +31,7 @@ public class BudgetService {
 
         // Same year
         for (int i = startDate.getMonthValue() + 1; i <= endDate.getMonthValue(); i++) {
-            LocalDate date = LocalDate.of(startDate.getYear(), i,1); // the 1st day of that month
+            LocalDate date = LocalDate.of(startDate.getYear(), i, 1); // the 1st day of that month
             result += getMonthBudgetOfDate(date);
         }
 
@@ -57,13 +55,11 @@ public class BudgetService {
     private float queryBudgetInSameMonth(LocalDate startDate, LocalDate endDate) {
         int amount = getMonthBudgetOfDate(startDate);
         int days = (int) DAYS.between(startDate, endDate) + 1;
-        return Math.round((amount * days / startDate.lengthOfMonth()) * 100.0) / 100.0f;
+        return Math.round(((float) amount * (float) days / (float) startDate.lengthOfMonth()) * 100.0) / 100.0f;
     }
 
-    // Return Month Budget
-    public int getMonthBudgetOfDate(LocalDate date) {
-        final String monthString = date.format(DateTimeFormatter.ofPattern("yyyyMM"));
-        final Repo repo = new Repo();
+    public int getMonthBudgetOfDate(LocalDate month) {
+        final String monthString = month.format(DateTimeFormatter.ofPattern("yyyyMM"));
         return repo.getAll().stream().filter(
                 b -> b.getYearMonth().equals(monthString)
         ).findFirst().get().getAmount();
