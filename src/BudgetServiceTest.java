@@ -25,11 +25,11 @@ public class BudgetServiceTest {
     public void budget_in_same_month() {
         MockBudgetService sut = new MockBudgetService();
         sut.stubBudges = Arrays.asList(
-                new Budget("201808", 310)
+                new Budget("201808", 31)
         );
         LocalDate startDate = LocalDate.of(2018, 8, 2);
         LocalDate endDate = LocalDate.of(2018, 8, 3);
-        budgetShouldBe(20, sut.queryBudget(startDate, endDate));
+        budgetShouldBe(2, sut.queryBudget(startDate, endDate));
     }
 
     @Test
