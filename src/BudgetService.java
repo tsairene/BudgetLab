@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -57,9 +58,13 @@ public class BudgetService {
 
     public int getMonthBudgetOfDate(LocalDate month) {
         final String monthString = month.format(DateTimeFormatter.ofPattern("yyyyMM"));
-        return repo.getAll().stream().filter(
+        return getAllBudget().stream().filter(
                 b -> b.getYearMonth().equals(monthString)
         ).findFirst().get().getAmount();
+    }
+
+    protected List<Budget> getAllBudget() {
+        return repo.getAll();
     }
 
     private int getMonthDiff(LocalDate startDate, LocalDate endDate) {
