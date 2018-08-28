@@ -12,7 +12,7 @@ public class BudgetServiceTest {
     public void same_date() {
         BudgetService budgetService = new BudgetService();
         LocalDate startDate = LocalDate.of(2018, 8, 1);
-        assertEquals(10, budgetService.queryBudget(startDate, startDate), 0.001);
+        assertEquals(19.03, budgetService.queryBudget(startDate, startDate), 0.001);
     }
 
     @Test
@@ -20,7 +20,7 @@ public class BudgetServiceTest {
         BudgetService budgetService = new BudgetService();
         LocalDate startDate = LocalDate.of(2018, 8, 2);
         LocalDate endDate = LocalDate.of(2018, 8, 3);
-        assertTrue(20 == budgetService.queryBudget(startDate, endDate));
+        assertEquals(38.06, budgetService.queryBudget(startDate, endDate), 0.001);
     }
 
     @Test
@@ -35,15 +35,6 @@ public class BudgetServiceTest {
     public void get_budget_by_date() {
         final BudgetService budgetService = new BudgetService();
         final LocalDate testDate = LocalDate.of(2018, 8, 1);
-        assertTrue(310 == budgetService.getMonthBudgetOfDate(testDate));
-    }
-
-    class StubIRepo implements IRepo {
-        public List<Budget> getAll() {
-            return Arrays.asList(
-                    new Budget("201803", 980),
-                    new Budget("201808", 310)
-            );
-        }
+        assertEquals(590, budgetService.getMonthBudgetOfDate(testDate), 0.001);
     }
 }
