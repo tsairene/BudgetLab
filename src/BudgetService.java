@@ -1,8 +1,10 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.MONTHS;
 
 
 public class BudgetService {
@@ -92,6 +94,6 @@ public class BudgetService {
     }
 
     private int getMonthDiff(LocalDate startDate, LocalDate endDate) {
-        return endDate.getMonthValue() - startDate.getMonthValue();
+        return Period.between(startDate, endDate.plusDays(1)).getMonths();
     }
 }
