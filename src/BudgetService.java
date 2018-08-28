@@ -37,12 +37,25 @@ public class BudgetService {
                 result += getMonthBudgetOfDate(date);
             }
         } else {
-            // TODO: Cross year
-            for (int y = startDate.getYear(); y <= endDate.getYear(); y++) {
+            // Start Year
+            result += queryBudgetAcrossOneMonth(
+                    startDate,
+                    LocalDate.of(startDate.getYear(), 12, 31));
 
+            // Years in between
+            for (int y = startDate.getYear(); y <= endDate.getYear(); y++) {
+                result += queryBudgetAcrossOneMonth(
+                        LocalDate.of(y, 1, 1),
+                        LocalDate.of(y, 12, 31)
+                );
             }
+
+            // End Year
+            result += queryBudgetAcrossOneMonth(
+                    LocalDate.of(endDate.getYear(), 1, 1),
+                    endDate);
         }
-        
+
         return result;
     }
 
