@@ -9,16 +9,21 @@ public class BudgetService {
     Repo repo = new Repo();
 
     public float queryBudget(LocalDate startDate, LocalDate endDate) {
-        int monthDiff = getMonthDiff(startDate, endDate);
-        if (monthDiff == 0) {
-            return queryBudgetInSameMonth(startDate, endDate);
-        } else if (monthDiff == 1) {
-            return queryBudgetAcrossOneMonth(startDate, endDate);
-        } else if (monthDiff >= 2) {
+        if (startDate.getYear() == endDate.getYear()) {
+            int monthDiff = getMonthDiff(startDate, endDate);
+            if (monthDiff == 0) {
+                return queryBudgetInSameMonth(startDate, endDate);
+            } else if (monthDiff == 1) {
+                return queryBudgetAcrossOneMonth(startDate, endDate);
+            } else if (monthDiff >= 2) {
+                return queryBudgetMoreThanOneMonth(startDate, endDate);
+            } else {
+                // monthDiff negative
+                return 0;
+            }
+        } else {
             return queryBudgetMoreThanOneMonth(startDate, endDate);
         }
-
-        return 0;
     }
 
     private float queryBudgetMoreThanOneMonth(LocalDate startDate, LocalDate endDate) {
@@ -43,7 +48,7 @@ public class BudgetService {
                     LocalDate.of(startDate.getYear(), 12, 31));
 
             // Years in between
-            for (int y = startDate.getYear(); y <= endDate.getYear(); y++) {
+            for (int y = startDate.getYear() + 1; y < endDate.getYear(); y++) {
                 result += queryBudgetAcrossOneMonth(
                         LocalDate.of(y, 1, 1),
                         LocalDate.of(y, 12, 31)
