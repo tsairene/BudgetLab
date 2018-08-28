@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -44,13 +45,17 @@ public class BudgetService {
     }
 
     private float queryBudgetInSameMonth(LocalDate startDate, LocalDate endDate) {
-        int amount = getAmountOfMonth(startDate);
+        int amount = getBudgetByDate(startDate);
         int days = (int) DAYS.between(startDate, endDate) + 1;
         return Math.round((amount * days / startDate.lengthOfMonth()) * 100.0) / 100.0f;
     }
 
-    private int getAmountOfMonth(LocalDate date) {
-        return 0;
+    public int getBudgetByDate(LocalDate month) {
+        final String monthString = month.format(DateTimeFormatter.ofPattern("yyyyMM"));
+        final Repo repo = new Repo();
+        return repo.getAll().stream().filter(
+                b -> b.getYearMonth().equals(monthString)
+        ).findFirst().get().getAmount();
     }
 
     private int getMonthDiff(LocalDate startDate, LocalDate endDate) {
