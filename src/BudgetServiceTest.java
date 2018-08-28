@@ -40,6 +40,14 @@ public class BudgetServiceTest {
     }
 
     @Test
+    public void budget_return_with_decimal_in_2_year() {
+        BudgetService budgetService = new BudgetService();
+        LocalDate startDate = LocalDate.of(2018, 3, 1);
+        LocalDate endDate = LocalDate.of(2019, 2, 28);
+        assertEquals(1002.67, budgetService.queryBudget(startDate, endDate), 0.001);
+    }
+
+    @Test
     public void get_budget_by_date() {
         final BudgetService budgetService = new BudgetService();
         final LocalDate testDate = LocalDate.of(2018, 8, 1);

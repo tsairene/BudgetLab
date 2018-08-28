@@ -1,10 +1,9 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Repo implements IRepo {
 
-    List<Budget> budges = new ArrayList<Budget>();
+    List<Budget> budges = new ArrayList<>();
 
     public Repo() {
         budges.add(new Budget("201801", 310));
