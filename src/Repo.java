@@ -19,6 +19,9 @@ public class Repo implements IRepo {
         budges.add(new Budget("201810", 777));
         budges.add(new Budget("201811", 670));
         budges.add(new Budget("201812", 310));
+        budges.add(new Budget("201901", 656));
+        budges.add(new Budget("201902", 490));
+        budges.add(new Budget("201903", 900));
     }
 
     @Override
