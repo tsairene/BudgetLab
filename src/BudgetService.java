@@ -29,9 +29,9 @@ public class BudgetService {
     private float queryBudgetMoreThanOneMonth(LocalDate startDate, LocalDate endDate) {
         float result = 0;
         result += queryBudgeInStartMonth(startDate);
-        int length = startDate.getMonthValue() + 1 + getMonthDiff(startDate.plusMonths(1), endDate.minusMonths(1));
+        int length = getMonthDiff(startDate, endDate.minusMonths(1));
         LocalDate date = startDate;
-        for (int m = startDate.getMonthValue(); m < length; m++) {
+        for (int m = 0; m < length; m++) {
             date = date.plusMonths(1); // go to next month
             result += getMonthBudgetOfDate(date);
         }
