@@ -61,9 +61,13 @@ public class BudgetServiceTest {
     }
 
     @Test
-    public void get_budget_by_date() {
-        final LocalDate testDate = LocalDate.of(2018, 8, 1);
-        budgetShouldBe(590, budgetService.getMonthBudgetOfDate(testDate));
+    public void testMonthBudget() {
+        MockBudgetService sut = new MockBudgetService();
+        sut.stubBudges = Arrays.asList(
+                new Budget("201801", 5566)
+        );
+        final LocalDate testDate = LocalDate.of(2018, 1, 1);
+        budgetShouldBe(5566, sut.getMonthBudgetOfDate(testDate));
     }
 
     private void budgetShouldBe(float expected, float actual) {
