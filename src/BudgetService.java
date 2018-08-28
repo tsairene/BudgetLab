@@ -9,20 +9,16 @@ public class BudgetService {
     Repo repo = new Repo();
 
     public float queryBudget(LocalDate startDate, LocalDate endDate) {
-        if (startDate.getYear() == endDate.getYear()) {
-            int monthDiff = getMonthDiff(startDate, endDate);
-            if (monthDiff == 0) {
-                return queryBudgetInSameMonth(startDate, endDate);
-            } else if (monthDiff == 1) {
-                return queryBudgetAcrossOneMonth(startDate, endDate);
-            } else if (monthDiff >= 2) {
-                return queryBudgetMoreThanOneMonth(startDate, endDate);
-            } else {
-                // monthDiff negative
-                return 0;
-            }
-        } else {
+        int monthDiff = getMonthDiff(startDate, endDate);
+        if (monthDiff == 0) {
+            return queryBudgetInSameMonth(startDate, endDate);
+        } else if (monthDiff == 1) {
+            return queryBudgetAcrossOneMonth(startDate, endDate);
+        } else if (monthDiff >= 2) {
             return queryBudgetMoreThanOneMonth(startDate, endDate);
+        } else {
+            // monthDiff negative
+            return 0;
         }
     }
 
