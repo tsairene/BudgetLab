@@ -35,7 +35,7 @@ public class BudgetServiceTest {
     public void get_budget_by_date() {
         final BudgetService budgetService = new BudgetService();
         final LocalDate testDate = LocalDate.of(2018, 8, 1);
-        assertTrue(310 == budgetService.getBudgetByDate(testDate));
+        assertTrue(310 == budgetService.getMonthBudgetOfDate(testDate));
     }
 
     class StubIRepo implements IRepo {
