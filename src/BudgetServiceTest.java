@@ -34,9 +34,16 @@ public class BudgetServiceTest {
 
     @Test
     public void budget_return_with_decimal_in_same_month() {
-        LocalDate startDate = LocalDate.of(2018, 3, 1);
-        LocalDate endDate = LocalDate.of(2018, 3, 1);
-        budgetShouldBe(31.61f, budgetService.queryBudget(startDate, endDate));
+        MockBudgetService sut = new MockBudgetService();
+        sut.stubBudges = Arrays.asList(
+                new Budget("201804", 10)
+        );
+
+        LocalDate startDate = LocalDate.of(2018, 4, 1);
+        LocalDate endDate = LocalDate.of(2018, 4, 2);
+
+        // 10 / 30 * 2 = 0.6666666666 (0.67)
+        budgetShouldBe(0.67f, sut.queryBudget(startDate, endDate));
     }
 
     @Test
