@@ -7,53 +7,42 @@ import java.util.List;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class BudgetService {
-    Repo repo = new Repo();
 
     public float queryBudget(LocalDate startDate, LocalDate endDate) {
         int monthDiff = getMonthDiff(startDate, endDate);
+        int amount = getMonthBudgetOfDate(startDate);
+
         if (monthDiff == 0) {
-            return queryBudgetInSameMonth(startDate, endDate);
+            int days = (int) DAYS.between(startDate, endDate) + 1;
+            return Math.round(((float) amount * (float) days / (float) startDate.lengthOfMonth()) * 100.0) / 100.0f;
         } else if (monthDiff == 1) {
-            return queryBudgetAcrossOneMonth(startDate, endDate);
+            final LocalDate endDate1 = startDate.with(TemporalAdjusters.lastDayOfMonth());
+            final LocalDate startDate1 = endDate.with(TemporalAdjusters.firstDayOfMonth());
+            int days = (int) DAYS.between(startDate, endDate1) + 1;
+            int amount1 = getMonthBudgetOfDate(startDate1);
+            int days1 = (int) DAYS.between(startDate1, endDate) + 1;
+            return Math.round(((float) amount * (float) days / (float) startDate.lengthOfMonth()) * 100.0) / 100.0f + Math.round(((float) amount1 * (float) days1 / (float) startDate1.lengthOfMonth()) * 100.0) / 100.0f;
         } else if (monthDiff >= 2) {
-            return queryBudgetMoreThanOneMonth(startDate, endDate);
+            float result = 0;
+            final LocalDate endDate1 = startDate.with(TemporalAdjusters.lastDayOfMonth());
+            int amount2 = getMonthBudgetOfDate(startDate);
+            int days1 = (int) DAYS.between(startDate, endDate1) + 1;
+            result += Math.round(((float) amount2 * (float) days1 / (float) startDate.lengthOfMonth()) * 100.0) / 100.0f;
+            int length = getMonthDiff(startDate.withDayOfMonth(1), endDate.minusMonths(1));
+            LocalDate date = startDate;
+            for (int m = 0; m < length; m++) {
+                date = date.withDayOfMonth(1).plusMonths(1); // go to next month
+                result += getMonthBudgetOfDate(date);
+            }
+            final LocalDate startDate1 = endDate.with(TemporalAdjusters.firstDayOfMonth());
+            int amount1 = getMonthBudgetOfDate(startDate1);
+            int days = (int) DAYS.between(startDate1, endDate) + 1;
+            result += Math.round(((float) amount1 * (float) days / (float) startDate1.lengthOfMonth()) * 100.0) / 100.0f;
+            return result;
         } else {
             // monthDiff negative
             return 0;
         }
-    }
-
-    private float queryBudgetMoreThanOneMonth(LocalDate startDate, LocalDate endDate) {
-        float result = 0;
-        result += queryBudgeInStartMonth(startDate);
-        int length = getMonthDiff(startDate.withDayOfMonth(1), endDate.minusMonths(1));
-        LocalDate date = startDate;
-        for (int m = 0; m < length; m++) {
-            date = date.withDayOfMonth(1).plusMonths(1); // go to next month
-            result += getMonthBudgetOfDate(date);
-        }
-        result += queryBudgeInEndMonth(endDate);
-        return result;
-    }
-
-    private float queryBudgeInStartMonth(LocalDate startDate) {
-        final LocalDate endDate = startDate.with(TemporalAdjusters.lastDayOfMonth());
-        return queryBudgetInSameMonth(startDate, endDate);
-    }
-
-    private float queryBudgeInEndMonth(LocalDate endDate) {
-        final LocalDate startDate = endDate.with(TemporalAdjusters.firstDayOfMonth());
-        return queryBudgetInSameMonth(startDate, endDate);
-    }
-
-    private float queryBudgetAcrossOneMonth(LocalDate startDate, LocalDate endDate) {
-        return queryBudgeInStartMonth(startDate) + queryBudgeInEndMonth(endDate);
-    }
-
-    private float queryBudgetInSameMonth(LocalDate startDate, LocalDate endDate) {
-        int amount = getMonthBudgetOfDate(startDate);
-        int days = (int) DAYS.between(startDate, endDate) + 1;
-        return Math.round(((float) amount * (float) days / (float) startDate.lengthOfMonth()) * 100.0) / 100.0f;
     }
 
     public int getMonthBudgetOfDate(LocalDate month) {
@@ -64,7 +53,7 @@ public class BudgetService {
     }
 
     protected List<Budget> getAllBudget() {
-        return repo.getAll();
+        return new Repo().getAll();
     }
 
     private int getMonthDiff(LocalDate startDate, LocalDate endDate) {
