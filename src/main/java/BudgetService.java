@@ -60,7 +60,7 @@ public class BudgetService {
         final String monthString = month.format(DateTimeFormatter.ofPattern("yyyyMM"));
         return getAllBudget().stream().filter(
                 b -> b.getYearMonth().equals(monthString)
-        ).findFirst().get().getAmount();
+        ).findFirst().orElse(new Budget(monthString, 0)).getAmount();
     }
 
     protected List<Budget> getAllBudget() {
