@@ -57,7 +57,7 @@ public class BudgetServiceTest {
     public void budget_return_with_decimal_in_2_year() {
         LocalDate startDate = LocalDate.of(2018, 3, 1);
         LocalDate endDate = LocalDate.of(2019, 2, 28);
-        budgetShouldBe(8183, budgetService.queryBudget(startDate, endDate));
+        budgetShouldBe(7348, budgetService.queryBudget(startDate, endDate));
     }
 
     @Test
@@ -100,7 +100,6 @@ public class BudgetServiceTest {
                     new Budget("201806", 700),
                     new Budget("201807", 1050),
                     new Budget("201808", 590),
-                    new Budget("201809", 835),
                     new Budget("201810", 777),
                     new Budget("201811", 670),
                     new Budget("201812", 310),
